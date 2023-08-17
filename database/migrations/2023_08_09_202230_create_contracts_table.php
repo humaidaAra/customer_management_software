@@ -17,7 +17,7 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('expire_date');
             $table->unsignedDouble('payment');
-            $table->longText('note');
+            $table->longText('note')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->timestamps();
             $table->softDeletes();

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('contract_id');
             $table->string('customer_name');
             $table->date('invoice_date');
+            $table->unsignedDouble('total');
             $table->tinyInteger('status');
             $table->timestamps();
             $table->softDeletes();

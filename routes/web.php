@@ -1,5 +1,11 @@
 <?php
 
+use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\ContractController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\InvoiceItemController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +19,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Route::get('/', [HomeController::class, 'index']);
+
+Route::middleware(['guest'])->group(function () {
+    Route::get('/', function () {
+        return redirect('/login');
+        // dd('here');s
+    });
+    Route::get('/login', [AuthenticationController::class, 'index'])->name('login');
+    Route::post('/login', [AuthenticationController::class, 'login']);
+});
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/', [HomeController::class, 'index']);
+    Route::get('logout', [AuthenticationController::class, 'logout'])->name('logout');
+
+    
+    Route::resource('customers', CustomerController::class);
+    Route::resource('contracts', ContractController::class);
+    Route::resource('invoices', InvoiceController::class);
+    Route::resource('invoiceitems', InvoiceItemController::class);
+
+});
+
+
+
+Route::fallback(function () {
+    return response(view('404'), 404);
 });

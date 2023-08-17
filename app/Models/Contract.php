@@ -10,6 +10,15 @@ class Contract extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = [
+    'customer_id',
+    'start_date',
+    'expire_date',
+    'payment',
+    'note',
+    'created_by'
+    ];
+
     public function invoices()
     {
         return $this->hasMany(Invoice::class);
