@@ -37,8 +37,8 @@ class InvoiceController extends Controller
             return redirect('invoices');
         } catch (\Throwable $th) {
             //throw $th;
-            dd($th);
-            // return response(null, 500);
+            // dd($th);
+            return response(null, 500);
         }
     }
 
@@ -86,11 +86,14 @@ class InvoiceController extends Controller
     public function destroy(string $id)
     {
         try {
-            Invoice::findOrFail($id)->delete();
+            $invoice = Invoice::findOrFail($id);
+            $invoice->invoiceItems()->delete();
+            $invoice->delete();
             return redirect('invoices');
         } catch (\Throwable $th) {
             //throw $th;
             return response(null, 500);
+            // dd($th);
         }
     }
 }

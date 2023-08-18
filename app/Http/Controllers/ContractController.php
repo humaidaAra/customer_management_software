@@ -77,8 +77,8 @@ class ContractController extends Controller
             return redirect('contracts');
         } catch (\Throwable $th) {
             //throw $th;
-            // return response(null, 500);
-            dd($th);
+            return response(null, 500);
+            // dd($th);
         }
     }
 
@@ -88,11 +88,17 @@ class ContractController extends Controller
     public function destroy(string $id)
     {
         try {
-            Contract::findOrFail($id)->delete();
+            $contract = Contract::findOrFail($id);
+            foreach ($contract->invoices as $invoice) {
+                $invoice->invoiceItems()->delete();
+            }
+            $contract->invoices()->delete();
+            $contract->delete();
             return redirect('contracts');
         } catch (\Throwable $th) {
             //throw $th;
             return response(null, 500);
+            // dd($th);
         }
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoiceItemController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,22 +25,22 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['guest'])->group(function () {
     Route::get('/', function () {
         return redirect('/login');
-        // dd('here');s
     });
     Route::get('/login', [AuthenticationController::class, 'index'])->name('login');
     Route::post('/login', [AuthenticationController::class, 'login']);
 });
 
 Route::middleware(['auth'])->group(function () {
+
+    Route::get('invoiceitems/create/{id}', [InvoiceItemController::class, 'create'])->name('special_create');
+
     Route::get('/', [HomeController::class, 'index']);
     Route::get('logout', [AuthenticationController::class, 'logout'])->name('logout');
 
-    
     Route::resource('customers', CustomerController::class);
     Route::resource('contracts', ContractController::class);
     Route::resource('invoices', InvoiceController::class);
     Route::resource('invoiceitems', InvoiceItemController::class);
-
 });
 
 

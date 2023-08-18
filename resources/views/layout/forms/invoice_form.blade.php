@@ -24,7 +24,7 @@
             <div class="col-12">
                 <label for="customer_name" class="form-label">Invoice for contract: </label>
                 <select name="contract_id" class="form-select shadow-sm p-4 mb-4 bg-white" aria-label="Default select example">
-                    <option selected>Open this select menu</option>
+                    <option selected>Select a contract ...</option>
                     @if (isset($contracts))
                         @foreach ($contracts as $contract)
                             <option style="word-spacing: 50%" value="{{ $contract->id }}" @if ($isEdit) {{ $contract->id == $invoice->contract_id ? 'selected' : '' }} @endif>

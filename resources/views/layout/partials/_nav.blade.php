@@ -3,7 +3,7 @@
     <div class="d-flex">
         <i class="bi bi-list toggle-sidebar-btn"></i>
         <div class="d-flex align-items-center justify-content-between mx-5">
-            <a href="index.html" class="logo d-flex align-items-center">
+            <a href="/" class="logo d-flex align-items-center">
                 <span class="">Customer Management Software</span>
             </a>
         </div><!-- End Logo -->

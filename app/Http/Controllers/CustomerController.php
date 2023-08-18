@@ -78,10 +78,20 @@ class CustomerController extends Controller
     {
         try {
             $customer = Customer::find($id);
+            foreach($customer->contracts as $contract)
+            {
+                foreach($contract->invoices as $invoice)
+                {
+                    $invoice->invoiceItems()->delete();
+                }
+                $contract->invoices()->delete();
+            }
+            $customer->contracts()->delete();
             $customer->delete();
             return redirect('/customers');
         } catch (\Throwable $th) {
             return response('500');
+            // dd($th);
         }
     }
 }

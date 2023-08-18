@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Exception;
 use Illuminate\Foundation\Http\FormRequest;
 
 class InvoiceItemRequest extends FormRequest
@@ -11,7 +12,7 @@ class InvoiceItemRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +22,21 @@ class InvoiceItemRequest extends FormRequest
      */
     public function rules(): array
     {
+        try {
+            $subtotal = request()->price - (request()->quantity * request()->price) * (request()->discount / 100);
+            $this->merge(['subtotal' => $subtotal]);
+        } catch (\Throwable $th) {
+            //throw $th;
+            return [];
+        }
         return [
-            //
+            'invoice_id' => ['required', 'numeric'],
+            'item_name' => ['required', 'string'],
+            'price' => ['required', 'numeric'],
+            'discount' => ['nullable', 'numeric'],
+            'quantity' => ['required', 'numeric'],
+            'subtotal' => ['required'],
+            'note' => ['nullable']
         ];
     }
 }
